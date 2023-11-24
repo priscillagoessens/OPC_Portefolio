@@ -94,6 +94,19 @@ buttonHostels.addEventListener("click", function () {
     this.classList.add('btn-selected');
 });
 
+//ajout de la barre noir et suppression des filtres, ajout du bouton modifier 
+
+const setUserConnected =  window.sessionStorage.getItem('userToken');
+console.log(setUserConnected)
+if(setUserConnected){
+    console.log('user ok')
+    const navConnected = document.createElement("div")
+    navConnected.classList.add("nav_connected")
+    document.body.appendChild(navConnected)
+}
+    
+
+
 
 
 

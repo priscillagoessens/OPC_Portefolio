@@ -205,6 +205,10 @@ input[type="submit"]{
 	margin-bottom: 1em;
 	margin-top: 100px;
 }
+/*error input*/
+.error{
+	border: 1px solid red !important;
+}
 
 .link_password{
 	text-align: center;
@@ -217,5 +221,10 @@ footer nav ul {
 	display: flex;
 	justify-content: flex-end;
 	margin: 2em
+}
+
+.nav_connected{
+background-color:black;
+height: 59px;
 }
 
