@@ -94,15 +94,47 @@ buttonHostels.addEventListener("click", function () {
     this.classList.add('btn-selected');
 });
 
-//ajout de la barre noir et suppression des filtres, ajout du bouton modifier 
 
+//ajout de la barre noir et suppression des filtres, ajout du bouton modifier 
 const setUserConnected =  window.sessionStorage.getItem('userToken');
-console.log(setUserConnected)
-if(setUserConnected){
-    console.log('user ok')
-    const navConnected = document.createElement("div")
-    navConnected.classList.add("nav_connected")
-    document.body.appendChild(navConnected)
+if(setUserConnected !== null ){
+    //creation de la barre haute 
+    const navConnected = document.createElement("div");
+    navConnected.classList.add("nav_connected");
+    const iconTop = document.createElement("img");
+    iconTop.src = './assets/icons/vector.png';
+    iconTop.alt = 'icon';
+    navConnected.innerHTML= "Mode édition";
+    navConnected.prepend(iconTop);
+    //ajoute comme premier enfant de l'élément body
+    document.body.prepend(navConnected);
+
+    //changement du login en logout
+    const logButton = document.getElementById("log_button");
+    logButton.innerText = "logout";
+    logButton.href = "#";
+
+    //cacher les filtres
+    sectionFilter.style.visibility = "hidden";
+    //construction du bouton modifier
+    const btnModifier = document.createElement("button");
+    const projectTitle = document.getElementById("project_title");
+    const sectionPortefolio =  document.getElementById("portfolio");
+    
+    // Créer un élément d'image (icône) avec une source
+    let iconElement = document.createElement('img');
+    iconElement.src = './assets/icons/group.png'; 
+    iconElement.alt = 'icon';
+    btnModifier.innerHTML = "Modifier";
+    btnModifier.prepend(iconElement);
+    projectTitle.insertAdjacentElement("afterend", btnModifier);
+
+    //creation d'une nouvelle section pour aligner le titre et le bouton 
+    const newSection = document.createElement("div");
+    sectionPortefolio.prepend(newSection);
+    newSection.classList.add("center_elements-login");
+    newSection.appendChild(projectTitle);
+    newSection.appendChild(btnModifier);
 }
     
 
