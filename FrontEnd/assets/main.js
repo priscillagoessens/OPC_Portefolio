@@ -1,3 +1,4 @@
+import { openmodal } from "./js/modal.js";
 ///recuperation des works
 const response = await fetch('http://localhost:5678/api/works'); // await permet d'attendre la reponse de l'api
 let elements = await response.json(); // la reponse est convertie en json 
@@ -96,7 +97,7 @@ buttonHostels.addEventListener("click", function () {
 
 
 //ajout de la barre noir et suppression des filtres, ajout du bouton modifier 
-const userToken =  window.sessionStorage.getItem('userToken');
+const userToken =  window.localStorage.getItem('userToken');
 if(userToken !== null ){
     createNavConnected();
     updateLogoutButton();
@@ -151,6 +152,10 @@ function createEditButton() {
     newSection.appendChild(projectTitle);
     newSection.appendChild(btnModifier);
 }
+
+const editButton = document.querySelector(".edit-button");
+
+editButton.addEventListener("click", openmodal)
     
 
 

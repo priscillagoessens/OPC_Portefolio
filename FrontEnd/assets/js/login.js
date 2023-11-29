@@ -43,7 +43,7 @@ function validateEmail(balise){
     }
 }
 
-form.addEventListener("submit", async (event)=>{
+form.addEventListener("submit", async function (event) {
     //on empeche le comportement par defaut de rechargement de page
     event.preventDefault();
     validateInput(inputPassword);
@@ -65,8 +65,8 @@ form.addEventListener("submit", async (event)=>{
     if(response.ok){ 
         const responseData = await response.json();
         const userToken = responseData.token;
-        // stocke le token dans le sessionStorage
-        sessionStorage.setItem('userToken', userToken);
+        // stocke le token dans le localStorage
+        localStorage.setItem('userToken', userToken);
         // redirection vers l'index
         window.location.href = "../../index.html"
     } else {
