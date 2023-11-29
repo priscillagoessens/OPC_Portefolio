@@ -11,7 +11,7 @@ function validateInput(balise){
             balise.classList.add("error")
             const passError = document.createElement("p")
             passError.classList.add("passError")
-            passError.textContent = 'Mot de passe invalid';
+            passError.textContent = 'Mot de passe incorrect';
             inputPassword.parentNode.insertBefore(passError, inputPassword.nextSibling);
         }
     }else{
@@ -37,7 +37,7 @@ function validateEmail(balise){
             balise.classList.add("error")
             const textError = document.createElement("p")
             textError.classList.add("textError")
-            textError.textContent = 'Email invalid';
+            textError.textContent = 'Email incorrect';
             inputEmail.parentNode.insertBefore(textError, inputEmail.nextSibling);
         }
     }

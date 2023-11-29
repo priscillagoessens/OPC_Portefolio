@@ -2,7 +2,7 @@
 const response = await fetch('http://localhost:5678/api/works'); // await permet d'attendre la reponse de l'api
 let elements = await response.json(); // la reponse est convertie en json 
 
-//generation des items de la gallerie
+//generation des items de la galerie
 function generateWorks(elements){
     const gallery = document.querySelector('.gallery');
     for(const element of elements){
@@ -96,35 +96,50 @@ buttonHostels.addEventListener("click", function () {
 
 
 //ajout de la barre noir et suppression des filtres, ajout du bouton modifier 
-const setUserConnected =  window.sessionStorage.getItem('userToken');
-if(setUserConnected !== null ){
+const userToken =  window.sessionStorage.getItem('userToken');
+if(userToken !== null ){
+    createNavConnected();
+    updateLogoutButton();
+    hideFilters();
+    createEditButton();
+}
+
+function createNavConnected() {
     //creation de la barre haute 
     const navConnected = document.createElement("div");
-    navConnected.classList.add("nav_connected");
     const iconTop = document.createElement("img");
+
+    navConnected.classList.add("nav_connected");
     iconTop.src = './assets/icons/vector.png';
     iconTop.alt = 'icon';
     navConnected.innerHTML= "Mode édition";
     navConnected.prepend(iconTop);
-    //ajoute comme premier enfant de l'élément body
+    //ajoute comme premier enfant de l'element body
     document.body.prepend(navConnected);
+}
 
+function updateLogoutButton() {
     //changement du login en logout
     const logButton = document.getElementById("log_button");
     logButton.innerText = "logout";
     logButton.href = "#";
-
+}
+function hideFilters() {
     //cacher les filtres
     sectionFilter.style.visibility = "hidden";
+}
+
+function createEditButton() {
     //construction du bouton modifier
     const btnModifier = document.createElement("button");
     const projectTitle = document.getElementById("project_title");
     const sectionPortefolio =  document.getElementById("portfolio");
     
     // Créer un élément d'image (icône) avec une source
-    let iconElement = document.createElement('img');
+    const iconElement = document.createElement('img');
     iconElement.src = './assets/icons/group.png'; 
     iconElement.alt = 'icon';
+    btnModifier.classList.add("edit-button");
     btnModifier.innerHTML = "Modifier";
     btnModifier.prepend(iconElement);
     projectTitle.insertAdjacentElement("afterend", btnModifier);
