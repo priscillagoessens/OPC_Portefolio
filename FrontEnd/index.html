@@ -9,7 +9,7 @@
 	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/style.css">
-	<script type="module" src="assets/main.js"></script>
+	<script type="module" src="./js/main.js"></script>
 
 </head>
 <body>
@@ -19,7 +19,7 @@
 		<ul>
 			<li>projets</li>
 			<li>contact</li>
-			<li><a id="log_button" href="./assets/pages/login.html">login</a></li>
+			<li><a id="log_button" href="./pages/login.html">login</a></li>
 			<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
 		</ul>
 	</nav>
@@ -39,8 +39,7 @@
 	<section id="portfolio">
 		<h2 id="project_title">Mes Projets</h2>
 		<div class="filter"></div>
-		<div class="gallery">
-		</div>
+		<div class="gallery"></div>
 	</section>
 	<section id="contact">
 		<h2>Contact</h2>
@@ -55,11 +54,32 @@
 			<input type="submit" value="Envoyer">
 		</form>
 	</section>
-	<aside id="modal" class="modal" aria-hidden="true" role="dialog" aria-modal="false">
+	<aside id="modal" class="modal">
 		<div class="modal-wrapper">
-			<button class="close-modal">X</button>
-			<h2>Galerie photo</h2>
-			<div></div>
+			<button class="close-modal"></button>
+			<div class="modal1">
+				
+				<h3 class="modal-title">Galerie photo</h3>
+				<div class="edit-gallery"></div>
+				<hr>
+				<input class="add-button" type="submit" value="Ajouter une photo">
+			</div>
+			<div class="modal2">
+				<button class="preview"></button>
+				<h3 class="modal-title">Ajout photo</h3>
+				<form action="#" method="post" class="modal-form">
+					<label for="name">Titre</label>
+					<input type="text" name="title" id="title">
+					<label for="categories" id="categories">Catégorie</label>
+					<select id="categories-select">
+						<option value="1">Objets</option>
+						<option value="2">Appartements</option>
+						<option value="3">Hotels &amp; restaurants</option>
+					</select>
+					<hr>
+					<input class="valid-button" type="submit" value="Envoyer">
+				</form>
+			</div>
 		</div>
 	</aside>
 </main>
