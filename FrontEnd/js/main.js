@@ -1,38 +1,52 @@
-import { openmodal } from "./modal.js";
-///recuperation des elements si ils sont present dans le localStorage
-let elements = window.localStorage.getItem('elements')
+import { openmodal,removeItem } from "./modal.js";
 
-if (elements === null) {
-    // recuperation des elements
-    const reponse = await fetch('http://localhost:5678/api/works');
-    elements = await reponse.json();
-    // transformation des elements en JSON
-    const valeurElements = JSON.stringify(elements);
-    // Stockage des informations dans le localStorage
-    window.localStorage.setItem("elements", valeurElements);
-} else {
-    elements = JSON.parse(elements);
-}
-// const response = await fetch('http://localhost:5678/api/works'); // await permet d'attendre la reponse de l'api
-// let elements = await response.json(); // la reponse est convertie en json 
+const reponse = await fetch('http://localhost:5678/api/works');
+export const elements = await reponse.json();
 
 //generation des items dans la galerie
-function generateWorks(elements){
+export function generateWorks(elements){
     const gallery = document.querySelector('.gallery');
-    gallery.innerHTML = '';
-    for(const element of elements){
-        const pieceElement = document.createElement('figure');
-        gallery.appendChild(pieceElement);
+    const modal = document.querySelector('.modal');
+    const edit = document.querySelector('.edit-gallery');
+    if(modal.style.display === 'flex'){
+        for(const element of elements){
+            const containerImg = document.createElement("div")
+            containerImg.classList.add('container-img')
+            edit.appendChild(containerImg)
         
-        const imageElement = document.createElement("img");
-        const titleElement = document.createElement("figcaption");
-        imageElement.src = element.imageUrl;
-        imageElement.alt =  element.title;
-        titleElement.innerText = element.title;
+            const pieceElement = document.createElement('img');
+            pieceElement.classList.add("img-card-edit")
+            pieceElement.src = element.imageUrl;
+        
+            const deleteIcon =  document.createElement('img')
+            deleteIcon.classList.add("delete-icon")
+        
+            containerImg.appendChild(pieceElement)
+            containerImg.appendChild(deleteIcon)
+            containerImg.setAttribute('data-element-id', element.id);
+        
+            deleteIcon.addEventListener('click', function(e) {
+              e.preventDefault()
+              containerImg.remove();
+        
+              removeItem(element.id); 
+            })
+        }
+    }else{
+        for(const element of elements){
+            const pieceElement = document.createElement('figure');
+            const imageElement = document.createElement("img");
+            const titleElement = document.createElement("figcaption");
     
-        pieceElement.appendChild(imageElement);
-        pieceElement.appendChild(titleElement);
-    }
+            imageElement.src = element.imageUrl;
+            imageElement.alt =  element.title;
+            titleElement.innerText = element.title;
+        
+            pieceElement.appendChild(imageElement);
+            pieceElement.appendChild(titleElement);
+            gallery.appendChild(pieceElement);
+        }
+    }  
 }
 generateWorks(elements)
 
@@ -119,6 +133,8 @@ if(userToken !== null ){
     updateLogButton();
     hideFilters();
     createEditButton();
+    const editButton = document.querySelector(".edit-button");
+    editButton.addEventListener("click", openmodal);
 }
 
 function createNavConnected() {
@@ -176,8 +192,8 @@ function createEditButton() {
     newSection.appendChild(projectTitle);
     newSection.appendChild(btnModifier);
 }
-const editButton = document.querySelector(".edit-button");
-editButton.addEventListener("click", openmodal);
+
+
 
 
 

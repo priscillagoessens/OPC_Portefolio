@@ -310,6 +310,7 @@ footer nav ul {
 	top:26px;
 	right: 30px;
 	background-color: transparent;
+	z-index: 999;
 }
 .modal-title{
 	color: #000;
@@ -377,6 +378,7 @@ hr{
 	display: flex;
     flex-direction: column;
     gap: 30px;
+	align-items: center;
 }
 .preview{
 	width: 21px;
