@@ -66,18 +66,24 @@
 			<div class="modal2">
 				<button class="preview"></button>
 				<h3 class="modal-title">Ajout photo</h3>
-				<form action="#" method="post" class="modal-form">
-					<label for="name">Titre</label>
-					<input type="text" name="title" id="title">
-					<label for="categories" id="categories">Catégorie</label>
-					<select id="categories-select">
-						<option value="1">Objets</option>
-						<option value="2">Appartements</option>
-						<option value="3">Hotels &amp; restaurants</option>
-					</select>
-					<hr>
-					<input class="valid-button" type="submit" value="Valider" disabled>
-				</form>
+				<div class="container-form">
+					<form action="#" method="#" class="modal-form">
+						<div class="dropzone" id="dropzone">
+							<img src="" id="uploaded-img">
+							<img src="./assets/icons/backgroundDrop.png" alt="image de fond de la zone de telechargement" id="upload-img">
+							<button class="upload-button">+ Ajouter photo</button>
+							<p> jpg, png: 4mo max</p>
+						</div>
+						
+						<label for="name">Titre</label>
+						<input type="text" name="title" id="title">
+						<label for="categories" id="categories">Catégorie</label>
+						<select id="categories-select">
+						</select>
+						<hr>
+						<input class="valid-button" type="submit" value="Valider" disabled>
+					</form>
+				</div>
 			</div>
 		</div>
 	</aside>

@@ -28,7 +28,6 @@ export function generateWorks(elements){
             deleteIcon.addEventListener('click', function(e) {
               e.preventDefault()
               containerImg.remove();
-        
               removeItem(element.id); 
             })
         }
@@ -53,7 +52,7 @@ generateWorks(elements)
 //filtres//
 //fetch les categories
 const getCategorie = await fetch('http://localhost:5678/api/categories');
-let categories = await getCategorie.json();
+export const categories = await getCategorie.json();
 
 //ajout du bouton "Tous"
 const buttonAll =  document.createElement("button");
