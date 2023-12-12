@@ -212,18 +212,14 @@ input[type="submit"]{
 	margin-top: 100px;
 }
 /*error message*/
-#error-message:empty {
+.error-message:empty {
 	display: none;
-	transition-duration: 1s;
 }
-#error-message {
+.error-message {
 	color: red;
 	text-align: center;
 	font-size: 1rem;
-	font-weight: bold;
-	margin: 2rem;
 	padding: 10px;
-	transition-duration: 1s;
 }
 
 .link_password{
@@ -298,6 +294,7 @@ footer nav ul {
 	position: relative;
     display: flex;
     flex-direction: column;
+	overflow: auto;
 }
 .close-modal{
 	width: 24px;
@@ -373,6 +370,7 @@ hr{
 	border-radius: 10px;
 	position: relative;
     flex-direction: column;
+	overflow: auto;
 }
 .container-form{
 	margin: 0 auto;
@@ -402,9 +400,15 @@ hr{
 	font-family: 'Work Sans' ;
 	font-size: 14px;
 	cursor: pointer;
+	display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .dropzone p, .upload-button {
 	color :#306685 ;
+}
+#imageInput {
+    display: none;
 }
 .modal-form #title, #categories-select{
 	width: 100%;

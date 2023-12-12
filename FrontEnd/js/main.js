@@ -1,4 +1,4 @@
-import { openmodal,removeItem } from "./modal.js";
+import { openmodal } from "./modal.js";
 
 const reponse = await fetch('http://localhost:5678/api/works');
 export const elements = await reponse.json();
@@ -8,32 +8,44 @@ export function generateWorks(elements){
     const gallery = document.querySelector('.gallery');
     const modal = document.querySelector('.modal');
     const edit = document.querySelector('.edit-gallery');
+
     if(modal.style.display === 'flex'){
         for(const element of elements){
             const containerImg = document.createElement("div")
             containerImg.classList.add('container-img')
             edit.appendChild(containerImg)
         
-            const pieceElement = document.createElement('img');
-            pieceElement.classList.add("img-card-edit")
-            pieceElement.src = element.imageUrl;
+            const imgElement = document.createElement('img');
+            imgElement.classList.add("img-card-edit")
+            imgElement.src = element.imageUrl;
         
             const deleteIcon =  document.createElement('img')
             deleteIcon.classList.add("delete-icon")
         
-            containerImg.appendChild(pieceElement)
+            containerImg.appendChild(imgElement)
             containerImg.appendChild(deleteIcon)
             containerImg.setAttribute('data-element-id', element.id);
         
             deleteIcon.addEventListener('click', function(e) {
               e.preventDefault()
               containerImg.remove();
-              removeItem(element.id); 
+              imgElement.remove();
+              const accessToken = window.localStorage.getItem('userToken');
+                fetch(`http://localhost:5678/api/works/${element.id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${accessToken}`,
+                    },
+                })
+                .catch(error => {
+                    console.error('Erreur lors de la suppression :', error);
+                });
             })
         }
     }else{
-        for(const element of elements){
-            const pieceElement = document.createElement('figure');
+        for(const element of elements){   
+            const figureElement = document.createElement('figure');
             const imageElement = document.createElement("img");
             const titleElement = document.createElement("figcaption");
     
@@ -41,9 +53,9 @@ export function generateWorks(elements){
             imageElement.alt =  element.title;
             titleElement.innerText = element.title;
         
-            pieceElement.appendChild(imageElement);
-            pieceElement.appendChild(titleElement);
-            gallery.appendChild(pieceElement);
+            figureElement.appendChild(imageElement);
+            figureElement.appendChild(titleElement);
+            gallery.appendChild(figureElement);
         }
     }  
 }
