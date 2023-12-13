@@ -80,7 +80,7 @@ categorySelect.addEventListener('change', checkInputs);
 
 function checkInputs() {
     const imageFilled = imageInput.value !== '';
-    const titleFilled = titleInput.value.trim() !== '';
+    const titleFilled = titleInput.value.trim() !== ''; // trim() supprime les espaces
     const categorySelected = categorySelect.value !== '';
     // affiche un message d'erreur
     if (!imageFilled || !titleFilled || !categorySelected) {
@@ -102,9 +102,9 @@ function checkInputs() {
 document.querySelector(".modal-form").addEventListener("submit", function(e){
     e.preventDefault();
     let formData = new FormData();
-    formData.append('title', document.getElementById('title').value);
+    formData.append('title', titleInput.value);
     formData.append('category', categorySelect.value);
-		formData.append('image', document.getElementById('imageInput').files[0]);
+		formData.append('image', imageInput.files[0]);
     const accessToken = window.localStorage.getItem('userToken');
 		fetch('http://localhost:5678/api/works', {
 			method: 'POST',
@@ -112,9 +112,6 @@ document.querySelector(".modal-form").addEventListener("submit", function(e){
 				'Authorization': `Bearer ${accessToken}`,
 			},
 			body: formData
-		})
-    .then(function(json) {
-			console.log(json);
 		})
     .catch(error => {
       console.error('Erreur lors de l\'ajout :', error);
