@@ -9,7 +9,7 @@ const imageInput = document.getElementById('imageInput');
 const uploadImg = document.getElementById('upload-img');
 const dropText = document.querySelectorAll('.dropzone-text');
 const titleInput = document.getElementById('title');
-const categorySelect = document.getElementById('categories-select');
+const categorySelect = document.getElementById('category-select');
 const validButton = document.querySelector('.valid-button');
 const formError = document.getElementById('formError');
 
@@ -98,28 +98,25 @@ function checkInputs() {
       validButton.classList.add('valid-button')
   }  
 }
-
-validButton.addEventListener('click', function(e){
-  e.preventDefault()
-  console.log('click')
-  //faire le post avec token 
-  modalContainer.style.display = "none";
-})
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-
-
+//ajout des données via un formData qui creer une paire cle/valeur
+document.querySelector(".modal-form").addEventListener("submit", function(e){
+    e.preventDefault();
+    let formData = new FormData();
+    formData.append('title', document.getElementById('title').value);
+    formData.append('category', categorySelect.value);
+		formData.append('image', document.getElementById('imageInput').files[0]);
+    const accessToken = window.localStorage.getItem('userToken');
+		fetch('http://localhost:5678/api/works', {
+			method: 'POST',
+			headers: {
+				'Authorization': `Bearer ${accessToken}`,
+			},
+			body: formData
+		})
+    .then(function(json) {
+			console.log(json);
+		})
+    .catch(error => {
+      console.error('Erreur lors de l\'ajout :', error);
+    });
+  })

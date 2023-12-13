@@ -410,7 +410,7 @@ hr{
 #imageInput {
     display: none;
 }
-.modal-form #title, #categories-select{
+.modal-form #title, #category-select{
 	width: 100%;
 	height: 51px;
 	box-shadow: 0px 4px 14px 0px rgba(0, 0, 0, 0.09);
@@ -433,7 +433,7 @@ hr{
 .valid-button{
 	background-color : #A7A7A7 !important;
 }
-#categories-select{
+#category-select{
 	border: none;
     box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
     cursor: pointer;
