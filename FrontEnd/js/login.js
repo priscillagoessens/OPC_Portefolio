@@ -15,18 +15,17 @@ form.addEventListener("submit", async function (event) {
             password:password,
         }),
     }); 
-
     if(response.ok){ 
         const responseData = await response.json();
         const userToken = responseData.token;
         // stocke le token dans le localStorage
         localStorage.setItem('userToken', userToken);
         // redirection vers l'index
-        window.location.href = "../index.html"
+        window.location.href = "../index.html";
     } else {
         // erreur
         console.error("Erreur lors de la soumission du formulaire:", response.status);
         let errorMsg = document.getElementById('error-message');
-        errorMsg.textContent="Identifiant ou mot de passe incorrect !";
+        errorMsg.textContent = "Identifiant ou mot de passe incorrect !";
     }
 })

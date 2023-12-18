@@ -1,90 +1,25 @@
-import { openmodal } from "./modal.js";
-
-const reponse = await fetch('http://localhost:5678/api/works');
-export const elements = await reponse.json();
-
-//generation des items dans la galerie
-export function generateWorks(elements){
-    const gallery = document.querySelector('.gallery');
-    const modal = document.querySelector('.modal');
-    const edit = document.querySelector('.edit-gallery');
-
-    if(modal.style.display === 'flex'){
-        for(const element of elements){
-            const containerImg = document.createElement("div")
-            containerImg.classList.add('container-img')
-            edit.appendChild(containerImg)
-        
-            const imgElement = document.createElement('img');
-            imgElement.classList.add("img-card-edit")
-            imgElement.src = element.imageUrl;
-        
-            const deleteIcon =  document.createElement('img')
-            deleteIcon.classList.add("delete-icon")
-        
-            containerImg.appendChild(imgElement)
-            containerImg.appendChild(deleteIcon)
-            containerImg.setAttribute('data-element-id', element.id);
-        
-            deleteIcon.addEventListener('click', function(e) {
-              e.preventDefault()
-              containerImg.remove();
-              imgElement.remove();
-              const accessToken = window.localStorage.getItem('userToken');
-                fetch(`http://localhost:5678/api/works/${element.id}`, {
-                    method: 'DELETE',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${accessToken}`,
-                    },
-                })
-                .catch(error => {
-                    console.error('Erreur lors de la suppression :', error);
-                });
-            })
-        }
-    }else{
-        for(const element of elements){   
-            const figureElement = document.createElement('figure');
-            const imageElement = document.createElement("img");
-            const titleElement = document.createElement("figcaption");
-    
-            imageElement.src = element.imageUrl;
-            imageElement.alt =  element.title;
-            titleElement.innerText = element.title;
-        
-            figureElement.appendChild(imageElement);
-            figureElement.appendChild(titleElement);
-            gallery.appendChild(figureElement);
-        }
-    }  
-}
-generateWorks(elements)
+import { elements, openModal, categorys, generateWorks } from "./utils.js";
 
 //filtres//
-//fetch les categories
-const getCategorie = await fetch('http://localhost:5678/api/categories');
-export const categories = await getCategorie.json();
-
 //ajout du bouton "Tous"
-const buttonAll =  document.createElement("button");
-const categorieSection = document.querySelector(".filter");
+const allBtn =  document.createElement("button");
+const categorySection = document.querySelector(".filter");
 
-buttonAll.classList.add('btn');
-buttonAll.setAttribute("data-id", "0");
-buttonAll.textContent = 'Tous';
-categorieSection.appendChild(buttonAll); 
+allBtn.classList.add('btn');
+allBtn.setAttribute("data-id", "0");
+allBtn.textContent = 'Tous';
+categorySection.appendChild(allBtn); 
 
 //genere chaque bouton de filtre avec le name et l'id dans une balise button
-for(const categorie of categories){
+for(const category of categorys){
     const button = document.createElement("button");
     button.classList.add("btn");
-    button.innerText = categorie.name;
-    button.setAttribute("data-id",categorie.id);
-    categorieSection.appendChild(button);
-}
+    button.innerText = category.name;
+    button.setAttribute("data-id",category.id);
+    categorySection.appendChild(button);
+};
 // met par defaut le premier enfant bouton en selected
-categorieSection.querySelector(':first-child').classList.add('btn-selected'); 
+categorySection.querySelector(':first-child').classList.add('btn-selected'); 
 
 //identification des filtres avec des data-attribute id 
 const buttonObjets = document.querySelector('[data-id="1"]')
@@ -99,17 +34,17 @@ function filterButtonCliked(categoryId){ //prend en parametre l'id
     });
     document.querySelector(".gallery").innerHTML = "";
     generateWorks(elementsFilter);
-}
+};
 
 //bouton Tous, affiche tous les items de la galerie
-buttonAll.addEventListener("click", function(){
+allBtn.addEventListener("click", function(){
     document.querySelector(".gallery").innerHTML = "";
     generateWorks(elements);
     for(const button of buttons){ 
         button.classList.remove('btn-selected');
     }
     this.classList.add('btn-selected');
-})
+});
 
 //Sur chaque bouton reproduit le filtre en fonction de l'argument 1,2,3
 buttonObjets.addEventListener("click", function () {
@@ -145,11 +80,11 @@ if(userToken !== null ){
     hideFilters();
     createEditButton();
     const editButton = document.querySelector(".edit-button");
-    editButton.addEventListener("click", openmodal);
-}
+    editButton.addEventListener("click", openModal);
+};
 
 function createNavConnected() {
-    //creation de la barre haute 
+    //creation du heade de navigation connectée
     const navConnected = document.createElement("div");
     const iconTop = document.createElement("img");
 
@@ -160,56 +95,47 @@ function createNavConnected() {
     navConnected.prepend(iconTop);
     //ajoute comme premier enfant de l'element body
     document.body.prepend(navConnected);
-}
+};
 
 //change le login en logout
 function updateLogButton() {
     document.getElementById("log_button").innerHTML = "logout";
-}
+    document.getElementById("log_button").href = "index.html";
+};
 
 const button =  document.getElementById('log_button'); 
 button.addEventListener('click', function(){
     let textButton = button.innerHTML.trim();
     if(textButton.toLowerCase() === 'logout'){
-        localStorage.clear();  
-    }
-})
+        localStorage.removeItem("userToken") 
+    };
+});
     
 //cache les filtres
 function hideFilters() {
-    categorieSection.style.visibility = "hidden";
-}
+    categorySection.style.visibility = "hidden";
+};
 
 function createEditButton() {
     //construction du bouton modifier
-    const btnModifier = document.createElement("button");
+    const btnModify = document.createElement("button");
     const projectTitle = document.getElementById("project_title");
-    const sectionPortefolio =  document.getElementById("portfolio");
+    const sectionPortfolio =  document.getElementById("portfolio");
     
     // creer une image avec une source
     const iconElement = document.createElement('img');
     iconElement.src = './assets/icons/group.png'; 
     iconElement.alt = 'icon';
-    btnModifier.classList.add("edit-button");
-    btnModifier.classList.add("modal-trigger")
-    btnModifier.innerHTML = "Modifier";
-    btnModifier.prepend(iconElement);
-    projectTitle.insertAdjacentElement("afterend", btnModifier);
+    btnModify.classList.add("edit-button");
+    btnModify.classList.add("modal-trigger")
+    btnModify.innerHTML = "Modifier";
+    btnModify.prepend(iconElement);
+    projectTitle.insertAdjacentElement("afterend", btnModify);
 
     //creation d'une nouvelle section pour aligner le titre et le bouton 
     const newSection = document.createElement("div");
-    sectionPortefolio.prepend(newSection);
+    sectionPortfolio.prepend(newSection);
     newSection.classList.add("center_elements-login");
     newSection.appendChild(projectTitle);
-    newSection.appendChild(btnModifier);
-}
-
-
-
-
-
-
-
-
-
-
+    newSection.appendChild(btnModify);
+};
